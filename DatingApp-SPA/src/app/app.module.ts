@@ -9,20 +9,37 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ListsComponent } from './lists/lists.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MemberListComponent } from './member-list/member-list.component';
+import { RouterModule, Routes } from '@angular/router';
+// import { appRoutes } from './routes';
+
+const appRoutes: Routes = [
+   { path: 'home', component: HomeComponent},
+   { path: 'members', component: MemberListComponent},
+   { path: 'messages', component: MessagesComponent},
+   { path: 'lists', component: ListsComponent},
+   { path: '**', redirectTo: 'home', pathMatch: 'full'}//  order is important because first match wins
+];
 
 @NgModule({
+   imports: [
+      BrowserModule,
+      RouterModule.forRoot(appRoutes),
+      HttpClientModule,
+      FormsModule,
+      BsDropdownModule.forRoot()
+   ],
    declarations: [
       AppComponent,
       NavComponent,
       HomeComponent,
-      RegisterComponent
-   ],
-   imports: [
-      BrowserModule,
-      HttpClientModule,
-      FormsModule,
-      BsDropdownModule.forRoot()
+      RegisterComponent,
+      MemberListComponent,
+      ListsComponent,
+      MessagesComponent
    ],
    providers: [
       AuthService,
@@ -31,6 +48,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
    ],
    bootstrap: [
       AppComponent
-   ]
+   ],
+   exports: [RouterModule]
 })
 export class AppModule { }
